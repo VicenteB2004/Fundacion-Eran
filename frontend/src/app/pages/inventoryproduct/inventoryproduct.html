@@ -1,0 +1,90 @@
+<main>
+
+<div class="beneficiarios-container"> 
+    <div class="header-container">
+        <h2>Ingresar Producto</h2>
+    <button class="btn-open-modal" (click)="abrirModal()">Ingresar Producto</button>
+    </div> 
+    <div class="table-responsive">
+      <table class="beneficiarios-table">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Producto</th>
+            <th>Categoria</th>
+            <th>Estado</th>
+            <th>Precio Unidad</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let beneficiario of beneficiarios; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ beneficiario.nombre }}</td>
+            <td>{{ beneficiario.apellido }}</td>
+            <td>{{ beneficiario.cedula }}</td>
+            <td>{{ beneficiario.telefono }}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-editar">Editar</button>
+                <button class="btn-eliminar">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!-- Modal con nuevo control flow @if -->
+@if (mostrarModal) {
+  <div class="overlay">
+    <div class="modal-container">
+      <h2>Registrar Producto</h2>
+      <p class="required-text">Todos los campos con <span>*</span> son obligatorios</p>
+
+      <form (ngSubmit)="registrarEntrega()" #form="ngForm">
+        <div class="form-group">
+          <label>Nombre*</label>
+          <input type="text" name="nombre" [(ngModel)]="entrega.nombre" required>
+        </div>
+
+        <div class="form-group">
+          <label>Descripcion*</label>
+          <input type="text" name="descripcion" [(ngModel)]="entrega.descripcion" required>
+        </div>
+
+        <div class="form-group">
+          <label>Estado de producto*</label>
+          <select name="estadoproducto" [(ngModel)]="entrega.estadoproducto" required>
+            <option value="" disabled selected>Seleccione un tipo</option>
+            <option value="Monetario">Nuevo</option>
+            <option value="Producto">Dañado</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+        <label>Valor*</label>
+        <input type="number" 
+         name="cantidad" 
+         [(ngModel)]="entrega.cantidad" 
+         required
+         min="1"
+         step="1"
+         pattern="[0-9]*">
+        </div>
+
+        <div class="form-group">
+          <label>Categoria*</label>
+          <input type="text" name="categoria" [(ngModel)]="entrega.categoria" required>
+        </div>
+
+
+        <div class="button-container">
+          <button type="submit" [disabled]="!form.valid">Registrar</button>
+          <button type="button" class="cancel-btn" (click)="cerrarModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+</main>

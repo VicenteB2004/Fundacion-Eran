@@ -1,0 +1,103 @@
+<main>
+  <div class="beneficiarios-container"> 
+    <div class="header-container">
+      <h2>Productos</h2>
+      <button class="btn-open-modal" (click)="abrirModal()">Vender Producto</button>
+    </div> 
+    <div class="table-responsive">
+      <table class="beneficiarios-table">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Producto</th>
+            <th>Categoría</th>
+            <th>Estado</th>
+            <th>Precio Unidad</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let producto of productos; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.categoria }}</td>
+            <td>{{ producto.estado }}</td>
+            <td>${{ producto.precio | number }}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-editar">Editar</button>
+                <button class="btn-eliminar">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal para venta de productos -->
+  @if (mostrarModal) {
+    <div class="overlay">
+      <div class="modal-container">
+
+        <!-- Buscar Cliente -->
+        <h2>Buscar cliente en el sistema</h2>
+        <p class="required-text">Todos los campos con <span>*</span> son obligatorios</p>
+
+        <div class="form-group">
+          <label>Cédula del cliente</label>
+          <input type="text" [(ngModel)]="cedulaBusqueda" placeholder="Ej: 001-1234567-8">
+        </div>
+
+        <button type="button" class="search-btn" (click)="buscarCliente()">Buscar Cliente</button>
+
+        <!-- Formulario de venta SIEMPRE visible -->
+        <div class="sale-section">
+          <h2>Vender Producto</h2>
+
+          <div class="form-group">
+            <label>Nombre del cliente *</label>
+            <input type="text" [(ngModel)]="venta.nombreCliente" 
+                   [readonly]="clienteEncontrado"
+                   class="readonly-input">
+          </div>
+
+          <div class="form-group">
+            <label>Cédula del cliente *</label>
+            <input type="text" [(ngModel)]="venta.cedulaCliente"
+                   [readonly]="clienteEncontrado"
+                   class="readonly-input">
+          </div>
+
+          <div class="form-group">
+            <label>Producto vendido *</label>
+            <select [(ngModel)]="venta.productoVendido" (change)="actualizarPrecio()">
+              <option value="" disabled selected>Seleccione un producto</option>
+              @for (producto of productos; track producto.codigo) {
+                <option [value]="producto.codigo">
+                  {{producto.nombre}} - ${{producto.precio | number:'1.2-2'}}
+                </option>
+              }
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Cantidad *</label>
+            <input type="number" [(ngModel)]="venta.cantidad" min="1" step="1"
+                   (change)="calcularTotal()">
+          </div>
+
+          <div class="price-display">
+            <p><strong>Precio unitario:</strong> ${{venta.precioUnitario | number:'1.2-2'}}</p>
+            <p class="total"><strong>Total:</strong> ${{venta.total | number:'1.2-2'}}</p>
+          </div>
+
+          <div class="button-container">
+            <button type="button" (click)="registrarVenta()">Ingresar</button>
+            <button type="button" class="cancel-btn" (click)="cerrarModal()">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</main>

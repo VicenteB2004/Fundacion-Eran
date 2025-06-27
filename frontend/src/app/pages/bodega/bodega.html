@@ -1,0 +1,75 @@
+<main>
+
+<div class="beneficiarios-container"> 
+    <div class="header-container">
+        <h2>Bodegas</h2>
+    <button class="btn-open-modal" (click)="abrirModal()">Agregar Bodega</button>
+    </div> 
+    <div class="table-responsive">
+      <table class="beneficiarios-table">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Nombre</th>
+            <th>Categoria</th>
+            <th>Estado</th>
+            <th>Max. Cantidad Producto</th>
+            <th>Opciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let beneficiario of beneficiarios; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ beneficiario.nombre }}</td>
+            <td>{{ beneficiario.categoria }}</td>
+            <td>{{ beneficiario.estado }}</td>
+            <td>{{ beneficiario.cantidad }}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-editar">Editar</button>
+                <button class="btn-eliminar">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<!-- Modal con nuevo control flow @if -->
+@if (mostrarModal) {
+  <div class="overlay">
+    <div class="modal-container">
+      <h2>Agregar a Bodega</h2>
+      <p class="required-text">Todos los campos con <span>*</span> son obligatorios</p>
+
+      <form (ngSubmit)="registrarEntrega()" #form="ngForm">
+        <div class="form-group">
+          <label>Nombre de Bodega*</label>
+          <input type="text" name="nombre de Bodega" [(ngModel)]="entrega.nombre" required>
+        </div>
+
+        <div class="form-group">
+          <label>Ubicacion*</label>
+          <input type="text" name="Ubicacion" [(ngModel)]="entrega.Ubicacion" required>
+        </div>
+
+        <div class="form-group">
+        <label>Capacidad*</label>
+        <input type="number" 
+         name="Capacidad" 
+         [(ngModel)]="entrega.Capacidad" 
+         required
+         min="1"
+         step="1"
+         pattern="[0-9]*">
+        </div>
+
+        <div class="button-container">
+          <button type="submit" [disabled]="!form.valid">Registrar</button>
+          <button type="button" class="cancel-btn" (click)="cerrarModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+}
+</main>

@@ -1,0 +1,46 @@
+<main>
+
+  <div class="beneficiarios-container">
+    <!-- Encabezado con botón para descargar -->
+    <div class="header-container">
+      <h2>Ventas Realizadas</h2>
+      <button class="btn-open-modal" (click)="descargarReportePDF()">Descargar reporte</button>
+    </div>
+
+    <!-- Tabla de ventas -->
+    <div class="table-responsive">
+      <table class="beneficiarios-table">
+        <thead>
+          <tr>
+            <th>N°</th>
+            <th>Cliente</th>
+            <th>Cédula</th>
+            <th>Producto</th>
+            <th>Unidades</th>
+            <th>Precio Unidad</th>
+            <th>Total</th>
+            <th>Acciones</th> <!-- ✅ columna agregada -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let beneficiario of beneficiarios; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ beneficiario.cliente }}</td>
+            <td>{{ beneficiario.cedula }}</td>
+            <td>{{ beneficiario.producto }}</td>
+            <td>{{ beneficiario.unidades }}</td>
+            <td>{{ beneficiario.preciounidad }}</td>
+            <td>{{ beneficiario.total }}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-editar">Editar</button>
+                <button class="btn-eliminar">Eliminar</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</main>
